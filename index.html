@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeafletJS</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <style>
+        html,
+        body,
+        #map {
+            height: 100%;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <script>
+        //Initialize Map (Added the missing comma here)
+        var map = L.map('map').setView([-7.6561918, 111.3282073], 13);
+
+        // Tile Layer Base Map
+        var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution:
+                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        });
+
+        var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+        });
+
+        var rupabumiindonesia = L.tileLayer('https://geoservices.big.go.id/rbi/rest/services/BASEMAP/Rupabumi_Indonesia/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Badan Informasi Geospasial'
+        });
+        var Google_Satellite = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+            maxZoom: 20,
+            subdomains: ["mt0", "mt1", "mt2", "mt3"],
+            attribution: 'Google'
+        });
+        var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+            maxZoom: 17,
+            attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+        });
+
+        // Menambahkan basemap ke dalam peta
+        rupabumiindonesia.addTo(map);
+
+        // Marker
+        var marker = L.marker([-7.6561918, 111.3282073]);
+        var marker2 = L.marker([-7.5453898, 111.5014458]);
+
+        // Menambahkan marker ke dalam peta
+        marker.addTo(map);
+        marker2.addTo(map);
+
+        // Popup
+        marker.bindPopup("<b>Magetan</b><br>(juga sering disebut Magetan Kota) adalah kecamatan di Kabupaten Magetan yang menjadi ibu kota kabupaten. Sebagai pusat pemerintahan, Magetan memiliki alun-alun, masjid agung, serta berbagai kantor pemerintahan. Selain itu, Magetan juga berperan sebagai pusat ekonomi kabupaten dengan adanya pusat perbelanjaan seperti Pasar Baru dan Pasar Sayur. Magetan dilengkapi infrastruktur lainnya seperti rumah sakit, sekolah unggulan, serta fasilitas olahraga seperti Stadion Yosonegoro dan GOR Ki Mageti.");
+        marker2.bindPopup("<b>Sukowidi</b><br>Sukowidi adalah sebuah nama desa di wilayah Kecamatan Kartoharjo, Kabupaten Magetan, Provinsi Jawa Timur. Terletak di perbatasan antara 2 wilayah kabupaten lainnya.yaitu kabupaten Madiun di timur Desa Sukowidi yakni desa pule kecamatan Sawahan kabupaten Madiun.Sedangkan di utara berbatasan dengan wilayah Dusun Grogolan Desa Waruk Kalong kecamatan kwadungan Kabupaten Ngawi.Di desa ini terdapat 3 sekolah dasar yakni, SDN Sukowidi 1, SDN Sukowidi 2, dan SDN Sukowidi 3.");
+        marker.openPopup();
+
+        // Tooltip
+        marker.bindTooltip("Magetan");
+        marker2.bindTooltip("Desa Sukowidi");
+        marker.openTooltip();
+
+        // Circle
+        var circle = L.circle([-7.6142162, 111.4389610], {
+            color: "red", // warna garis
+            opacity: 1, // opacity garis
+            fillColor: "yellow", // warna fill
+            fillOpacity: 0.5, // opacity fill
+            radius: 1500, // radius dalam meter
+        });
+
+        // Menambahkan circle ke dalam peta
+        circle.addTo(map);
+
+        // Popup
+        circle.bindPopup("<b>Hallo</b><br>Ini adalah kawasan militer");
+        circle.openPopup();
+
+        // Tooltip
+        circle.bindTooltip("Lanud Iswahyudi", { sticky: true });
+        circle.openTooltip();
+
+        // Polyline
+        var vertexPolyline = [
+            [-7.5401840, 111.5613556],
+            [-7.5799931, 111.4298630],
+            [-7.6205092, 111.1940002],
+            [-7.5020144, 111.3931274],
+        ];
+        var polyline = L.polyline(vertexPolyline, {
+            color: "red", // warna garis
+            weight: 6, // ketebalan garis
+            opacity: 1, // opacity garis
+        });
+
+        // Menambahkan polyline ke dalam peta
+        polyline.addTo(map);
+
+        // Popup
+        polyline.bindPopup("<b>Hallo</b><br>Ini adalah popup polyline");
+        polyline.openPopup();
+
+        // Tooltip
+        polyline.bindTooltip("Ini adalah tooltip polyline", { sticky: true });
+        polyline.openTooltip();
+
+        // Polygon
+        var vertexPolygon = [
+            [-7.8355617, 111.5476227],
+            [-7.7627350, 111.7996216],
+            [-7.5979777, 112.0578003],
+            [-7.3527677, 111.5984344],
+            [-7.4285303, 111.1768341]
+        ];
+        var polygon = L.polygon(vertexPolygon, {
+            color: "purple", // warna garis
+            weight: 3, // ketebalan garis
+            opacity: 1, // opacity garis
+            fillColor: "#0f3", // warna fill
+            fillOpacity: 0.2, // opacity fill
+        });
+
+        // Menambahkan polygon ke dalam peta
+        polygon.addTo(map);
+
+        // Popup
+        polygon.bindPopup("<b>Hallo</b><br>Ini adalah popup polygon");
+        polygon.openPopup();
+
+        // Tooltip
+        polygon.bindTooltip("Ini adalah tooltip polygon", { sticky: true });
+        polygon.openTooltip();
+
+        // Control Layer
+        var baseMaps = {
+            "OpenStreetMap": osm,
+            "Esri World Imagery": Esri_WorldImagery,
+            "Rupa Bumi Indonesia": rupabumiindonesia,
+            "Google Sattellite": Google_Satellite,
+            "OpenTopoMap": OpenTopoMap,
+        };
+
+        var overlayMaps = {
+            // "Marker": marker,
+            // "Circle": circle,
+            // "Polyline": polyline,
+            //"Polygon": polygon,
+            "Magetan": marker,
+            "Desa Sukowidi": marker2,
+            "Circle": circle,
+            "Line": polyline,
+            "Polygon": polygon,
+        };
+
+        var controllayer = L.control.layers(baseMaps, overlayMaps, { collapsed: false });
+        controllayer.addTo(map);
+
+        // Scale
+        var scale = L.control.scale();
+        scale.addTo(map);
+
+        // Geolocation
+        map.locate({
+            setView: true,
+            maxZoom: 16,
+        });
+
+        // // Fungsi untuk menampilkan lokasi
+        // function onLocationFound(e) {
+        //     var radius = e.accuracy / 2;
+
+        //     // Menampilkan marker pada lokasi 
+        //     L.marker(e.latlng).addTo(map).bindPopup("Anda berada dalam radius " + radius + " meter dari titik ini").openPopup();
+
+        //     // Menampilkan circle pada lokasi
+        //     L.circle(e.latlng, radius).addTo(map);
+        // }
+
+        // map.on("locationfound", onLocationFound);
+
+        // // Fungsi untuk menampilkan pesan error
+        // function onLocationError(e) {
+        //     alert(e.message);
+        // }
+
+        map.on("locationerror", onLocationError);
+
+    </script>
+</body>
+
+</html>
